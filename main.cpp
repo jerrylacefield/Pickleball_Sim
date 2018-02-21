@@ -41,15 +41,18 @@ int main() {
     int turns = 0;
     while (!gameOver(p1, p2)) {
         throwDownTheGauntlet(p1, p2);
-        ClearScreen();
+//        ClearScreen();
         turns++;
     }
     
     if (p1->points > p2->points) {
-        printf("Final Score: %d-%d, Player 1 wins the game\n", p1->points, p2->points);
+        std::cout << "1 " << p1->points << " " << p2->points << std::endl;
+//        printf("Final Score: %d-%d, Player 1 wins the game\n", p1->points, p2->points);
     }
     else {
-        printf("Final Score: %d-%d, Player 2 wins the game\n", p2->points, p1->points);
+        std::cout << "2 " << p1->points << " " << p2->points << std::endl;
+
+//        printf("Final Score: %d-%d, Player 2 wins the game\n", p2->points, p1->points);
     }
     
     return 0;
