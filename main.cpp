@@ -1,6 +1,6 @@
 //
 //  main.cpp
-//  MatchingPennies
+//  Pickleball_Sim
 //
 //  Created by Jerry Lacefield on 2/15/18.
 //  Copyright © 2018 Jerry Lacefield. All rights reserved.
