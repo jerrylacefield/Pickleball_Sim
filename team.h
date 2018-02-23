@@ -40,22 +40,22 @@ Team::~Team() {
 }
 
 /* Return Team Points to calling function */
-Team::getPoints() {
+int Team::getPoints() {
     return points;
 }
 
 /* Return current coin toss to calling function */
-Team::getCoinToss {
+int Team::getCoinToss {
     return coinToss;
 }
 
 /* Increment Team Points by 1 */
-Team::incrementPoints(int p) {
+void Team::incrementPoints(int p) {
     points += p;
 }
 
 /* Toss coin function */
-Team::tossCoin() {
+void Team::tossCoin() {
     tossCoin = rand() % 2 + 1;
 }
 
