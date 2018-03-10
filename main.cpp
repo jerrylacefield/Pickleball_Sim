@@ -7,18 +7,14 @@
 //
 
 #include <iostream>
-#include <time.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <term.h>
-
+#include <time.h>
+#include "randomizer.cpp"
 #include "player.h"
 #include "team.h"
 #include "serve.h"
 
 //function prototypes
-void ClearScreen();
-int coinToss();
 void throwDownTheGauntlet(Player *p1, Player *p2);
 bool gameOver(Player *p1, Player *p2);
 void chooseStrategy(Player *p1, Player *p2, int coinSide);
@@ -41,11 +37,15 @@ int main() {
     PointManager *pm;             // Pointer for ServerManager
     pm = &Manager;
     
-    int toss = coinToss();
-    
     std::cout << t1 << "\t" << t2 << std::endl;
-    pm->setup(t1, t2, toss);
+    pm->setup(t1, t2, coinToss());
     std::cout << pm->attacker << "\t" << pm->defender << "\t" << pm->returner << std::endl;
+    
+    
+    t1->setStrategy(coinToss());
+    t2->setStrategy(coinToss());
+    
+    
     
 //    int turns = 0;
 //    while (!gameOver(p1, p2)) {
@@ -55,10 +55,6 @@ int main() {
     
     
     return 0;
-}
-
-void ClearScreen() {
-    system("clear");
 }
 
 /*
@@ -72,11 +68,6 @@ void ClearScreen() {
 //    
 //    return false;
 //}
-
-/* Coin Toss Function */
-int coinToss() {
-    return rand() % 2 + 1;
-}
 
 ///*  */
 //void throwDownTheGauntlet(Player *p1, Player *p2) {

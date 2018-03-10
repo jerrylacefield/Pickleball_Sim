@@ -20,7 +20,6 @@ private:
 public:
     // Constructors and Destructor
     Team();
-    Team(int p);
     ~Team();
     
     // overloaded prefix ++ operator
@@ -35,8 +34,8 @@ public:
     int getCoinToss();
     
     // Setters
-    void incrementPoints(int p);
     void tossCoin(int coinSide);
+    void setStrategy(int);
 };
 
 /* Constructors */
@@ -54,10 +53,6 @@ int Team::getPoints() {
     return points;
 }
 
-/* Increment Team Points by 1 */
-void Team::incrementPoints(int p) {
-    points += p;
-}
 
 /* Toss coin function */
 //void Team::tossCoin() {
