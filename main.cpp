@@ -27,19 +27,25 @@ void callFirstServe(Player *first, Player *second);
 bool payoff_Mixed(Player *p1, Player *p2);
 bool payoff_Matched(Player *p1, Player *p2);
 
-void pregameRoutine(Team *t1, Team *t2, Point *pm);
-
 int main() {
     srand (time(NULL));
     
     Team Team1, Team2;  // Team objects created
-    Team *t1, *t2;      // Pointers for Team1 and Team2
+    Team *t1;
+    Team *t2;      // Pointers for Team1 and Team2
     
-    Point PointManager;    // Serve object to track server status
-    Point *pm;             // Pointer for ServerManager
+    t1 = &Team1;
+    t2 = &Team2;
     
-    pregameRoutine(t1, t2, pm);
+    PointManager Manager;    // Serve object to track server status
+    PointManager *pm;             // Pointer for ServerManager
+    pm = &Manager;
     
+    int toss = coinToss();
+    
+    std::cout << t1 << "\t" << t2 << std::endl;
+    pm->setup(t1, t2, toss);
+    std::cout << pm->attacker << "\t" << pm->defender << "\t" << pm->returner << std::endl;
     
 //    int turns = 0;
 //    while (!gameOver(p1, p2)) {
@@ -49,22 +55,6 @@ int main() {
     
     
     return 0;
-}
-
-// Pregame Routine: set attacker, defender, returner
-void pregameRoutine(Team *t1, Team *t2, Point *pm) {
-    int toss = coinToss();
-    if (toss == 1) {
-        pm->attacker = t1;
-        pm->defender = t2;
-        pm->returner = t2;
-    }
-    else {
-        pm->attacker = t2;
-        pm->defender = t1;
-        pm->returner = t1;
-    }
-    std::cout << pm->attacker << " " << pm->defender << " " << pm->returner << std::endl;
 }
 
 void ClearScreen() {
@@ -88,47 +78,21 @@ int coinToss() {
     return rand() % 2 + 1;
 }
 
-/*  */
-void throwDownTheGauntlet(Player *p1, Player *p2) {
-    int firstServe = coinToss();
-    
-    if (firstServe == 1) {
-        callFirstServe(p1, p2);
-    }
-    else {
-        callFirstServe(p2, p1);
-    }
-    
-    if (payoff_Mixed(p1, p2) || payoff_Matched(p1, p2)) {
-        p1->points += 1;
-    }
-    else {
-        p2->points += 1;
-    }
-}
-
-//// check payoff for mixed strategy
-//bool payoff_Mixed(Player *p1, Player *p2) {
-//    return p1->getStrategy() == 1 && p1->coinToss != p2->coinToss;
+///*  */
+//void throwDownTheGauntlet(Player *p1, Player *p2) {
+//    int firstServe = coinToss();
+//    
+//    if (firstServe == 1) {
+//        callFirstServe(p1, p2);
+//    }
+//    else {
+//        callFirstServe(p2, p1);
+//    }
+//    
+//    if (payoff_Mixed(p1, p2) || payoff_Matched(p1, p2)) {
+//        p1->points += 1;
+//    }
+//    else {
+//        p2->points += 1;
+//    }
 //}
-//
-//// check payoff for matched strategy
-//bool payoff_Matched(Player *p1, Player *p2) {
-//    return p1->getStrategy() != 1 && p1->coinToss == p2->coinToss;
-//}
-//
-//void chooseStrategy(Player *p1, Player *p2, int coinSide) {
-//    if (coinSide == 1) { setStrategy(p1, p2); }
-//    else { setStrategy(p2, p1); }
-//}
-//
-//void setStrategy(Player *first, Player *second) {
-//    first->setStrategy(1);
-//    second->setStrategy(2);
-//}
-//
-////
-//void callFirstServe(Player *first, Player *second) {
-//    first->coinToss = coinToss();
-//    second->coinToss = coinToss();
-}

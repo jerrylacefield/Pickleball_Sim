@@ -8,27 +8,44 @@
 
 #ifndef point_h
 #define point_h
+
+#include <time.h>
 #include "team.h"
 
 
-class Point {
+class PointManager {
 private:
 public:
     // Constructors, Destructors
-    Point();
-    ~Point();
+    PointManager();
+    ~PointManager();
+    
+    void setup(Team *t1, Team *t2, int toss);
     
     Team *attacker;
     Team *defender;
     Team *returner;
 };
 
-Point::Point() {
+PointManager::PointManager() {
 
 }
 
-Point::~Point() {
+PointManager::~PointManager() {
     
+}
+
+void PointManager::setup(Team *t1, Team *t2, int toss) {
+    if (toss == 1) {
+        attacker = t1;
+        defender = t2;
+        returner = t2;
+    }
+    else {
+        attacker = t2;
+        defender = t1;
+        returner = t1;
+    }
 }
 
 #endif /* point_h */
