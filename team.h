@@ -15,10 +15,20 @@ class Team {
 private:
     int points;
     int coinToss;
+    int strategy;
+    
 public:
     // Constructors and Destructor
     Team();
+    Team(int p);
     ~Team();
+    
+    // overloaded prefix ++ operator
+    Team operator++ (int) {
+        ++points;
+        
+        return Team();
+    }
     
     // Getters
     int getPoints();

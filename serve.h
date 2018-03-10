@@ -1,54 +1,34 @@
 //
-//  serve.h
+//  point.h
 //  Pickleball_Sim
 //
 //  Created by Jerry Lacefield on 2/23/18.
 //  Copyright © 2018 Jerry Lacefield. All rights reserved.
 //
 
-#ifndef serve_h
-#define serve_h
+#ifndef point_h
+#define point_h
+#include "team.h"
 
-class Serve {
+
+class Point {
 private:
-    int servingTeam;
-    int currentServer;
 public:
     // Constructors, Destructors
-    Serve();
-    ~Serve();
+    Point();
+    ~Point();
     
-    // Getters
-    int getServingTeam();
-    int getCurrentServer();
-    
-    // Setters
-    void setServingTeam(int team);
-    void setCurrentServer(int server);
+    Team *attacker;
+    Team *defender;
+    Team *returner;
 };
 
-Serve::Serve() {
-    servingTeam = 0;
+Point::Point() {
+
 }
 
-Serve::~Serve() {
+Point::~Point() {
     
 }
 
-int Serve::getServingTeam() {
-    return servingTeam;
-}
-
-int Serve::getCurrentServer() {
-    return currentServer;
-}
-
-void Serve::setServingTeam(int team) {
-    servingTeam = team;
-}
-
-void Serve::setCurrentServer(int server) {
-    currentServer = server;
-}
-
-#endif /* serve_h */
+#endif /* point_h */

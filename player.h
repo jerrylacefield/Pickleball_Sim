@@ -11,7 +11,7 @@
 
 struct Player {
     int points;     // points scored
-    int strategy;   // 1 - mixed, 2 - matched
+    int strategy;   // Value between 0-99, determines failure probability
     int coinToss;   // holds value for current coin toss
     void setStrategy(int coinToss);
     int getStrategy();
