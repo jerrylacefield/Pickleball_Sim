@@ -38,7 +38,7 @@ int main() {
     pm->setup(t1, t2, coinToss());
     std::cout << pm->attacker << "\t" << pm->defender << "\t" << pm->returner << std::endl;
     
-    int i = 0;
+//    int i = 0;
     while (!pm->gameOver(t1, t2)) {
         if (pm->serveBall()) {
             std::cout << pm->getServerName() << " with successful serve!" << std::endl;
@@ -51,21 +51,37 @@ int main() {
             }
 
             std::cout << pm->getReturnerName() << " with failed return" << std::endl;
-            if (pm->returner == pm->defender) { pm->returner = pm->attacker; }
+            if (pm->returner == pm->defender) {
+                if (pm->attacker == t1) { t1->incrementPoints(); }
+                else { t2->incrementPoints(); }
+                pm->returner = pm->attacker;
+            }
             else { pm->returner = pm->defender; }
+            
 
         }
         else {
             std::cout << pm->getServerName() << " with failed serve." << std::endl;
-            if (
-//            pm->changePossession(t1, t2);
+            if (pm->getServerNumber() == 2) {
+                pm->changePossession(t1, t2);
+            }
+            else {
+                pm->changeServerNumber();
+            }
         }
         
         //temporary terminator
-        if (i < 12) {
-            i++;
-            t1->incrementPoints();
-        }
+//        if (i < 12) {
+//            i++;
+//            t1->incrementPoints();
+//        }
+    }
+    
+    if (t1->getPoints() > t2->getPoints()) {
+        std::cout << t1->getTeamName() << " won the game, " << t1->getPoints() << "-" << t2->getPoints() << std::endl;
+    }
+    else {
+        std::cout << t2->getTeamName() << " won the game, " << t2->getPoints() << "-" << t1->getPoints() << std::endl;
     }
     
     

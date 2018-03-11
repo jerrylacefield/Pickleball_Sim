@@ -15,6 +15,7 @@
 
 class PointManager {
 private:
+    int serverNumber;
 public:
     // Constructors, Destructors
     PointManager();
@@ -35,14 +36,17 @@ public:
     Team *attacker;
     Team *defender;
     Team *returner;
-//    void changePossession(Team *t1, Team *t2);
+    
+    void changeServerNumber();
+    int getServerNumber();
+    void changePossession(Team *t1, Team *t2);
     std::string getServerName();
     std::string getReturnerName();
 };
 
 // Default Constructor
 PointManager::PointManager() {
-
+    serverNumber = 2;
 }
 
 // Destructor
@@ -106,9 +110,29 @@ bool PointManager::hitCheck() {
     else { return coinToss() == hit; }
 }
 
-//void PointManager::changePossession(Team *t1, Team *t2) {
-//    
-//}
+/* POINT MANAGER OTHER DETAILS*/
+
+void PointManager::changeServerNumber() {
+    if (serverNumber == 1) { serverNumber = 2; }
+    else { serverNumber = 1; }
+}
+
+int PointManager::getServerNumber() {
+    return serverNumber;
+}
+
+void PointManager::changePossession(Team *t1, Team *t2) {
+//    Team *tmp;
+    if (attacker == t1) {
+//        tmp = t1;
+        attacker = t2;
+        returner = defender = t1;
+    }
+    else {
+        attacker = t1;
+        returner = defender = t2;
+    }
+}
 
 std::string PointManager::getServerName() {
     return attacker->getTeamName();
