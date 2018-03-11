@@ -34,9 +34,10 @@ int main() {
     PointManager *pm;             // Pointer for ServerManager
     pm = &Manager;
     
-    std::cout << t1->getTeamName() << " (" << t1 << ")\t" << t2->getTeamName() << " (" << t2 << ")" << std::endl;
+    
     pm->setup(t1, t2, coinToss());
-    std::cout << pm->attacker << "\t" << pm->defender << "\t" << pm->returner << std::endl;
+    std::cout << pm->getServerName() << " vs. " << pm->getReturnerName() << std::endl;
+    
     
     while (!pm->gameOver(t1, t2)) {
         // call the score
