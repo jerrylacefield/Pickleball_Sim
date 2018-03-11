@@ -29,12 +29,14 @@ public:
     
     bool serveBall();
     bool serveCheck();
+    void incrementServes(bool success);
     
     bool returnBall();
     bool hitCheck();
+    void incrementReturns(bool success);
     void moveReturner();
     
-    void scorePoint(Team *t1, Team *t2);
+    void scorePoint();
     
     Team *attacker;
     Team *defender;
@@ -121,6 +123,10 @@ bool PointManager::serveCheck() {
     else { return coinToss() == serve; }
 }
 
+void PointManager::incrementServes(bool success) {
+    attacker->incrementServes(success);
+}
+
 
 /*
  Method:  Returning Ball
@@ -139,6 +145,16 @@ bool PointManager::hitCheck() {
     int hit = coinToss();
     if (returner->getStrategy() == 1) { return coinToss() != hit; }
     else { return coinToss() == hit; }
+}
+
+void PointManager::incrementReturns(bool success) {
+    returner->incrementReturns(success);
+//    std::cout << "TROUBLESHOOTING " << getReturnerName() << std::endl;
+}
+
+void PointManager::moveReturner() {
+    if (returner == defender) { returner = attacker; }
+    else { returner = defender; }
 }
 
 
@@ -164,9 +180,10 @@ int PointManager::getServerNumber() {
  -------------------------------------------
  A simple method of giving a point to the attacker
  */
-void PointManager::scorePoint(Team *t1, Team *t2) {
-    if (attacker == t1) { t1->incrementPoints(); }
-    else { t2->incrementPoints(); }
+void PointManager::scorePoint() {
+//    if (attacker == t1) { t1->incrementPoints(); }
+//    else { t2->incrementPoints(); }
+    attacker->incrementPoints();
 }
 
 /*
@@ -184,6 +201,7 @@ void PointManager::changePossession(Team *t1, Team *t2) {
         attacker = t1;
         returner = defender = t2;
     }
+    serverNumber = 1;
 }
 
 
