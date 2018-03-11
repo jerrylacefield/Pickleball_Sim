@@ -16,12 +16,6 @@
 
 //function prototypes
 void throwDownTheGauntlet(Player *p1, Player *p2);
-bool gameOver(Player *p1, Player *p2);
-void chooseStrategy(Player *p1, Player *p2, int coinSide);
-void setStrategy(Player *first, Player *second);
-void callFirstServe(Player *first, Player *second);
-bool payoff_Mixed(Player *p1, Player *p2);
-bool payoff_Matched(Player *p1, Player *p2);
 
 int main() {
     srand (time(NULL));
@@ -29,6 +23,9 @@ int main() {
     Team Team1, Team2;  // Team objects created
     Team *t1;
     Team *t2;      // Pointers for Team1 and Team2
+    
+    Team1.setTeamName("Dinkers");
+    Team2.setTeamName("Slammers");
     
     t1 = &Team1;
     t2 = &Team2;
@@ -41,9 +38,35 @@ int main() {
     pm->setup(t1, t2, coinToss());
     std::cout << pm->attacker << "\t" << pm->defender << "\t" << pm->returner << std::endl;
     
-    
-    t1->setStrategy(coinToss());
-    t2->setStrategy(coinToss());
+    int i = 0;
+    while (!pm->gameOver(t1, t2)) {
+        if (pm->serveBall()) {
+            std::cout << pm->getServerName() << " with successful serve!" << std::endl;
+            
+            while(pm->returnBall()) {
+                std::cout << pm->getReturnerName() << " with successful return" << std::endl;
+                
+                if (pm->returner == pm->defender) { pm->returner = pm->attacker; }
+                else { pm->returner = pm->defender; }
+            }
+
+            std::cout << pm->getReturnerName() << " with failed return" << std::endl;
+            if (pm->returner == pm->defender) { pm->returner = pm->attacker; }
+            else { pm->returner = pm->defender; }
+
+        }
+        else {
+            std::cout << pm->getServerName() << " with failed serve." << std::endl;
+            if (
+//            pm->changePossession(t1, t2);
+        }
+        
+        //temporary terminator
+        if (i < 12) {
+            i++;
+            t1->incrementPoints();
+        }
+    }
     
     
     
@@ -56,18 +79,6 @@ int main() {
     
     return 0;
 }
-
-/*
- Check if "Game Over" criteria is met
- First to 11, must win by at least 2 points
- */
-//bool gameOver(Player *p1, Player *p2) {
-//    if (p1->points >= 11 || p2->points >= 11) {
-//        if (abs(p1->points - p2->points) >= 2) { return true; }
-//    }
-//    
-//    return false;
-//}
 
 ///*  */
 //void throwDownTheGauntlet(Player *p1, Player *p2) {

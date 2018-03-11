@@ -10,6 +10,7 @@
 #define team_h
 
 #include <stdlib.h>
+#include <string>
 
 class Team {
 private:
@@ -20,27 +21,38 @@ private:
 public:
     // Constructors and Destructor
     Team();
+    Team(int);
     ~Team();
     
-    // overloaded prefix ++ operator
+    std::string teamName;
+    
+    // overloaded postfix ++ operator
     Team operator++ (int) {
+        Team T(points);
+        
         ++points;
         
-        return Team();
+        return T;
     }
     
     // Getters
     int getPoints();
-    int getCoinToss();
+    int getStrategy();
+    std::string getTeamName();
     
     // Setters
-    void tossCoin(int coinSide);
     void setStrategy(int);
+    void incrementPoints();
+    void setTeamName(std::string name);
 };
 
 /* Constructors */
 Team::Team() {
     points = 0;
+}
+
+Team::Team(int p) {
+    points = p;
 }
 
 /* Destructors */
@@ -53,10 +65,28 @@ int Team::getPoints() {
     return points;
 }
 
+int Team::getStrategy() {
+    return strategy;
+}
 
-/* Toss coin function */
-//void Team::tossCoin() {
-//    tossCoin = rand() % 2 + 1;
-//}
+std::string Team::getTeamName() {
+    return teamName;
+}
+
+// set paddle value
+void Team::setStrategy(int s) {
+    strategy = s;
+}
+
+// increment point total
+void Team::incrementPoints() {
+    points++;
+}
+
+// set team name
+void Team::setTeamName(std::string name) {
+    teamName = name;
+    std::cout << "Team Name is " << getTeamName() << std::endl;
+}
 
 #endif /* team_h */
