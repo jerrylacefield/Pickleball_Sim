@@ -21,6 +21,8 @@ private:
     int numberGoodServes;
     int numberReturns;
     int numberGoodReturns;
+    int numberOffensiveReturns;
+    int numberGoodOffensiveReturns;
     
 public:
     // Constructors and Destructor
@@ -55,6 +57,10 @@ public:
     void incrementGoodReturns();
     int getGoodReturns();
     
+    void incrementOffensiveReturns(bool);
+    int getOffensiveReturns();
+    int getGoodOffensiveReturns();
+    
     void setTeamName(std::string name);
     std::string getTeamName();
 };
@@ -63,7 +69,7 @@ public:
 Team::Team() {
     points = 0;
     numberGoodServes = numberServes = 0;
-    numberGoodReturns = numberReturns = 0;
+    numberGoodOffensiveReturns = numberGoodReturns = numberReturns = 0;
 }
 
 Team::Team(int p) {
@@ -127,6 +133,22 @@ int Team::getReturns() {
 
 int Team::getGoodReturns() {
     return numberGoodReturns;
+}
+
+/*
+ Method:  Offensive Returns Counter
+*/
+void Team::incrementOffensiveReturns(bool success) {
+    numberOffensiveReturns++;
+    if (success) { numberGoodOffensiveReturns++; }
+}
+
+int Team::getOffensiveReturns() {
+    return numberOffensiveReturns;
+}
+
+int Team::getGoodOffensiveReturns() {
+    return numberGoodOffensiveReturns;
 }
 
 /*

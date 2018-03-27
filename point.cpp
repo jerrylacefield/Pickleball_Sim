@@ -7,7 +7,6 @@
 //
 
 #include "point.h"
-#include "randomizer.cpp"
 
 // Default Constructor
 PointManager::PointManager() {
@@ -66,39 +65,7 @@ bool PointManager::minScoreDiff(Team *t1, Team *t2) {
 }
 
 
-/*
- Method:  Serving Ball
- -------------------------------------------
- Team defined as the attacker attempts to serve the ball
- to the other team.  Serve Strategy is defined before
- doing a serve check to determine success of serve
- */
-bool PointManager::serveBall() {
-    //    attacker->setStrategy(coinToss());    // server swings paddle
-    //    attacker->setStrategy(diceRoll(7));
-    attacker->setStrategy(1);
-    
-    return (serveCheck());
-}
-
-bool PointManager::serveCheck() {
-    //    int serve = coinToss();
-    //    if (attacker->getStrategy() == 1) { return coinToss() != serve; }
-    //    else { return coinToss() == serve; }
-    
-    //    int serve = diceRoll(6);
-    //    if (attacker->getStrategy() < 4) { return diceRoll(6) < serve; }
-    //    else if (attacker->getStrategy() > 4) { return diceRoll(6) > serve; }
-    //    else { return diceRoll(6) == serve; }
-    
-    int serve = diceRoll(8);
-    return diceRoll(100) >= serve;
-}
-
-void PointManager::incrementServes(bool success) {
-    attacker->incrementServes(success);
-}
-
+/* SERVING METHOD PLACEHOLDER */
 /*
  Method:  Returning Ball
  -------------------------------------------
@@ -191,3 +158,4 @@ std::string PointManager::getServerName() {
 std::string PointManager::getReturnerName() {
     return returner->getTeamName();
 }
+
