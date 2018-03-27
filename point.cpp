@@ -1,51 +1,13 @@
 //
-//  point.h
+//  point.cpp
 //  Pickleball_Sim
 //
-//  Created by Jerry Lacefield on 2/23/18.
+//  Created by Jerry Lacefield on 3/26/18.
 //  Copyright © 2018 Jerry Lacefield. All rights reserved.
 //
 
-#ifndef point_h
-#define point_h
-
-#include <time.h>
-#include "team.h"
-
-
-class PointManager {
-private:
-    int serverNumber;
-public:
-    // Constructors, Destructors
-    PointManager();
-    ~PointManager();
-    
-    void setup(Team *t1, Team *t2, int toss);
-    
-    bool gameOver(Team *t1, Team *t2);
-    bool minScoreMet(Team *t);
-    bool minScoreDiff(Team *t1, Team *t2);
-    
-    bool serveBall();
-    bool serveCheck();
-    
-    bool returnBall();
-    bool hitCheck();
-    void moveReturner();
-    
-    void scorePoint(Team *t1, Team *t2);
-    
-    Team *attacker;
-    Team *defender;
-    Team *returner;
-    
-    void changeServerNumber();
-    int getServerNumber();
-    void changePossession(Team *t1, Team *t2);
-    std::string getServerName();
-    std::string getReturnerName();
-};
+#include "point.h"
+#include "randomizer.cpp"
 
 // Default Constructor
 PointManager::PointManager() {
@@ -69,7 +31,8 @@ PointManager::~PointManager() {
  Attacker and must prevent the current Attacker from scoring
  to cause a change of possession
  */
-void PointManager::setup(Team *t1, Team *t2, int toss) {
+void PointManager::setup(Team *t1, Team *t2) {
+    int toss = coinToss();
     if (toss == 1) {
         attacker = t1;
         returner = defender = t2;
@@ -80,7 +43,7 @@ void PointManager::setup(Team *t1, Team *t2, int toss) {
     }
 }
 
-/* 
+/*
  Method:  Game Over Test
  -------------------------------------------
  After running through a serve and any number of n-returns,
@@ -102,7 +65,8 @@ bool PointManager::minScoreDiff(Team *t1, Team *t2) {
     return (abs(t1->getPoints() - t2->getPoints()) >= 2);
 }
 
-/* 
+
+/*
  Method:  Serving Ball
  -------------------------------------------
  Team defined as the attacker attempts to serve the ball
@@ -110,17 +74,30 @@ bool PointManager::minScoreDiff(Team *t1, Team *t2) {
  doing a serve check to determine success of serve
  */
 bool PointManager::serveBall() {
-    attacker->setStrategy(coinToss());    // server swings paddle
+    //    attacker->setStrategy(coinToss());    // server swings paddle
+    //    attacker->setStrategy(diceRoll(7));
+    attacker->setStrategy(1);
     
     return (serveCheck());
 }
 
 bool PointManager::serveCheck() {
-    int serve = coinToss();
-    if (attacker->getStrategy() == 1) { return coinToss() != serve; }
-    else { return coinToss() == serve; }
+    //    int serve = coinToss();
+    //    if (attacker->getStrategy() == 1) { return coinToss() != serve; }
+    //    else { return coinToss() == serve; }
+    
+    //    int serve = diceRoll(6);
+    //    if (attacker->getStrategy() < 4) { return diceRoll(6) < serve; }
+    //    else if (attacker->getStrategy() > 4) { return diceRoll(6) > serve; }
+    //    else { return diceRoll(6) == serve; }
+    
+    int serve = diceRoll(8);
+    return diceRoll(100) >= serve;
 }
 
+void PointManager::incrementServes(bool success) {
+    attacker->incrementServes(success);
+}
 
 /*
  Method:  Returning Ball
@@ -130,15 +107,32 @@ bool PointManager::serveCheck() {
  before doing a hit check to determine success of return
  */
 bool PointManager::returnBall() {
-    returner->setStrategy(coinToss());
+    //    returner->setStrategy(coinToss());
+    returner->setStrategy(1);
     
     return (hitCheck());
 }
 
 bool PointManager::hitCheck() {
-    int hit = coinToss();
-    if (returner->getStrategy() == 1) { return coinToss() != hit; }
-    else { return coinToss() == hit; }
+    //    int hit = coinToss();
+    //    if (returner->getStrategy() == 1) { return coinToss() != hit; }
+    //    else { return coinToss() == hit; }
+    
+    int hit = diceRoll(25);
+    return diceRoll(50) >= hit;
+}
+
+void PointManager::incrementReturns(bool success) {
+    returner->incrementReturns(success);
+    if (returner != defender) {
+        returner->incrementOffensiveReturns(success);
+    }
+    //    std::cout << "TROUBLESHOOTING " << getReturnerName() << std::endl;
+}
+
+void PointManager::moveReturner() {
+    if (returner == defender) { returner = attacker; }
+    else { returner = defender; }
 }
 
 
@@ -164,9 +158,10 @@ int PointManager::getServerNumber() {
  -------------------------------------------
  A simple method of giving a point to the attacker
  */
-void PointManager::scorePoint(Team *t1, Team *t2) {
-    if (attacker == t1) { t1->incrementPoints(); }
-    else { t2->incrementPoints(); }
+void PointManager::scorePoint() {
+    //    if (attacker == t1) { t1->incrementPoints(); }
+    //    else { t2->incrementPoints(); }
+    attacker->incrementPoints();
 }
 
 /*
@@ -184,6 +179,7 @@ void PointManager::changePossession(Team *t1, Team *t2) {
         attacker = t1;
         returner = defender = t2;
     }
+    serverNumber = 1;
 }
 
 
@@ -195,5 +191,3 @@ std::string PointManager::getServerName() {
 std::string PointManager::getReturnerName() {
     return returner->getTeamName();
 }
-
-#endif /* point_h */
